@@ -12,8 +12,8 @@ services:
     image: ${DOCKER_HUB_CREDS_USR}/todo-app-backend:latest
     container_name: todo-app-backend
     environment:
-      DATABASE_URI:
-      CREATE_SCHEMA:
+      DATABASE_URI: sqlite:///data.db
+      CREATE_SCHEMA: true
     ports:
       - target: 5000
         published: 5000
