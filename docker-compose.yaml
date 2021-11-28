@@ -13,7 +13,7 @@ services:
     container_name: todo-app-backend
     environment:
       DATABASE_URI: sqlite:///data.db
-      CREATE_SCHEMA: false
+      CREATE_SCHEMA:
     ports:
       - target: 5000
         published: 5000
