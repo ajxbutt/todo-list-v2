@@ -1,65 +1,71 @@
 from application import app, db
-from application.models import Tasks
+from application.models import Teams
 from flask import render_template, request, redirect, url_for, Response, jsonify
 
-@app.route('/create/task', methods=['POST'])
-def create_task():
+@app.route('/create/team', methods=['POST'])
+def create_team():
         package = request.json
-        new_task = Tasks(description=package["description"])
-        db.session.add(new_task)
+        new_team = Teams(name=package["name"])
+        db.session.add(new_team)
         db.session.commit()
-        return Response(f"Added task with description: {new_task.description}", mimetype='text/plain')
+        return Response(f"Added team with name: {new_task.name}", mimetype='text/plain')
 
-@app.route('/read/allTasks', methods=['GET'])
-def read_tasks():
-    all_tasks = Tasks.query.all()
-    tasks_dict = {"tasks": []}
-    for task in all_tasks:
-        tasks_dict["tasks"].append(
+@app.route('/read/allTeams', methods=['GET'])
+def read_teams():
+    all_teams = Teams.query.all()
+    teams_dict = {"teams": []}
+    for team in all_teams:
+        teams_dict["teams"].append(
             {
-                "id": task.id,
-                "description": task.description,
-                "completed": task.completed
+                "id": team.id,
+                "name": team.name,
+                "league": team.league,
             }
         )
-    return jsonify(tasks_dict)
+    return jsonify(teams_dict)
 
-@app.route('/read/task/<int:id>', methods=['GET'])
-def read_task(id):
-    task = Tasks.query.get(id)
-    tasks_dict = {
-                "id": task.id,
-                "description": task.description,
-                "completed": task.completed
+@app.route('/read/teams/<int:id>', methods=['GET'])
+def read_team(id):
+    team = Teams.query.get(id)
+    teams_dict = {
+                "name": team.name,
+                "league": team.league,
                 }
     return jsonify(tasks_dict)
 
-@app.route('/update/task/<int:id>', methods=['PUT'])
-def update_task(id):
+@app.route('/update/team/name/<int:id>', methods=['PUT'])
+def update_team_name(id):
     package = request.json
-    task = Tasks.query.get(id)
-    task.description = package["description"]
+    team = Teams.query.get(id)
+    team.name = package["name"]
     db.session.commit()
-    return Response(f"Updated task (ID: {id}) with description: {task.description}", mimetype='text/plain')
+    return Response(f"Updated team (ID: {id}) with name: {team.name}", mimetype='text/plain')
 
-
-@app.route('/delete/task/<int:id>', methods=['DELETE'])
-def delete_task(id):
-    task = Tasks.query.get(id)
-    db.session.delete(task)
+@app.route('/update/team/league/<int:id>', methods=['PUT'])
+def update_team_league(id):
+    package = request.json
+    team = Teams.query.get(id)
+    team.league = package["league"]
     db.session.commit()
-    return Response(f"Deleted task (ID: {id})", mimetype='text/plain')
+    return Response(f"Updated team (ID: {id}) with league: {team.league}", mimetype='text/plain')
 
-@app.route('/complete/task/<int:id>', methods=['PUT'])
-def complete_task(id):
-    task = Tasks.query.get(id)
-    task.completed = True
+@app.route('/delete/team/<int:id>', methods=['DELETE'])
+def delete_team(id):
+    team = Teams.query.get(id)
+    db.session.delete(team)
     db.session.commit()
-    return Response(f"Task (ID:{id}) completed.")
+    return Response(f"Deleted team (ID: {id})", mimetype='text/plain')
 
-@app.route('/incomplete/task/<int:id>', methods=['PUT'])
-def incomplete_task(id):
-    task = Tasks.query.get(id)
-    task.completed = False
-    db.session.commit()
-    return Response(f"Task (ID:{id}) incomplete.")
+# @app.route('/complete/task/<int:id>', methods=['PUT'])
+# def complete_task(id):
+#     task = Tasks.query.get(id)
+#     task.completed = True
+#     db.session.commit()
+#     return Response(f"Task (ID:{id}) completed.")
+
+# @app.route('/incomplete/task/<int:id>', methods=['PUT'])
+# def incomplete_task(id):
+#     task = Tasks.query.get(id)
+#     task.completed = False
+#     db.session.commit()
+#     return Response(f"Task (ID:{id}) incomplete.")
