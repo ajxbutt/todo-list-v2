@@ -5,10 +5,10 @@ from flask import render_template, request, redirect, url_for, Response, jsonify
 @app.route('/create/team', methods=['POST'])
 def create_team():
         package = request.json
-        new_team = Teams(name=package["name"])
+        new_team = Teams(name=package["name"], league=package["league"])
         db.session.add(new_team)
         db.session.commit()
-        return Response(f"Added team with name: {new_task.name}", mimetype='text/plain')
+        return Response(f"Added team with name: {new_team.name}", mimetype='text/plain')
 
 @app.route('/read/allTeams', methods=['GET'])
 def read_teams():
@@ -31,7 +31,7 @@ def read_team(id):
                 "name": team.name,
                 "league": team.league,
                 }
-    return jsonify(tasks_dict)
+    return jsonify(teams_dict)
 
 @app.route('/update/team/name/<int:id>', methods=['PUT'])
 def update_team_name(id):
