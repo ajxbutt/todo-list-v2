@@ -2,6 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
-class TaskForm(FlaskForm):
-    description = StringField("Task Description", validators=[DataRequired()])
-    submit = SubmitField("Add Task")
+class TeamForm(FlaskForm):
+    name = StringField("Team Name", validators=[DataRequired()])
+    submit = SubmitField("Add Team")

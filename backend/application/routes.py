@@ -24,7 +24,7 @@ def read_teams():
         )
     return jsonify(teams_dict)
 
-@app.route('/read/teams/<int:id>', methods=['GET'])
+@app.route('/read/team/<int:id>', methods=['GET'])
 def read_team(id):
     team = Teams.query.get(id)
     teams_dict = {

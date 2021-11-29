@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-    <h2>Incomplete Tasks</h2>
+    <!-- <h2>Incomplete Tasks</h2>
     {% for task in all_tasks %}
     {% if task["completed"] == False %}
         <p>
@@ -25,6 +25,6 @@
             <a href="{{ url_for('incomplete_task', id=task.id) }}">Incomplete</a>
         </p>    
     {% endif %}
-    {% endfor %}
+    {% endfor %} -->
 
 {% endblock body %}
